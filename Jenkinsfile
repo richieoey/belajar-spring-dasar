@@ -9,6 +9,7 @@ pipeline {
         stage("Build"){
             steps{
                 script {
+                    // Script Tutorial
                     for (int i = 0; i<10; i++) {
                         echo("Script ${i}")
                     }
@@ -20,6 +21,13 @@ pipeline {
         }
         stage("Test"){
             steps{
+                script{
+                    def data = [
+                        "firstName" : "Richie"
+                        "lastName" : "Oey"
+                    ]
+                    writeJSON(file: "data.json", json: data)
+                }
                 echo("Start Test")
                 sh("./mvnw test")
                 echo("Finish Test")
