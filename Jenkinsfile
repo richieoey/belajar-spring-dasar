@@ -4,12 +4,38 @@ pipeline {
         AUTHOR = "Richie Darmawan Oey"
         EMAIL = "richieoey@yahoo.co.id"
     }
+
+    parameters{ // contoh parameters
+        // cara aksesnya mirip seperti environtment tinggal panggil name: nya
+        string(name: "NAME", defaultValue: "Guest", description: "What is your name?")
+        text(name: "DESCRIPTION", defaultValue: "Guest", description: "Tell me about you")
+        booleanParam(name: "DEPLOY", defaultValue: false, description: "Need to Deploy?")
+        choice(name: "SOCIAL_MEDIA", choices: ['Instagram','Facebook','Twitter'], description: "Which Social Media?")
+        password(name: "SECRET", defaultValue: "", description: "Encrypt Key")
+    }
+
     options { // level pipeline
         disableConcurrentBuilds() // agar tidak jalan secara paralel
-        timeout(time: 10, unit: 'SECONDS')
+        timeout(time: 10, unit: 'MINUTES')
     }
 
     stages{
+        stage("Parameter"){
+            agent {
+                node {
+                    label "linux && java11"
+                }
+            }
+            steps{
+                echo "Hello ${params.NAME}!"
+                echo "You description : ${params.DESCRIPTION}"
+                echo "You social media : ${params.SOCIAL_MEDIA} user!"
+                echo "Need to deploy : ${params.DEPLOY} to deploy"
+                echo "Your secret is ${params.SECRET}"
+                
+            }
+
+        }
         stage("Prepare"){
             environment { // level stage
                 APP = credentials("richie_rahasia") // menggunakan credential
@@ -22,7 +48,7 @@ pipeline {
             steps{
                 // echo("Author : ${AUTHOR}")
                 // echo("Email : ${EMAIL}")
-                // echo("Start Job : ${env.JOB_NAME}")
+                // echo("Start Job : ${env.JOB_NAME}") // env = environment
                 // echo("Start Build : ${env.BUILD_NUMBER}")
                 // echo("Branch Name : ${env.BRANCH_NAME}")
                 echo("App User : ${APP_USR}") // akses data credential
