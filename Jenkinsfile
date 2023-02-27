@@ -1,14 +1,17 @@
 pipeline {
     agent none
-    environment {
+    environment { // level pipeline
         AUTHOR = "Richie Darmawan Oey"
         EMAIL = "richieoey@yahoo.co.id"
-
+    }
+    options { // level pipeline
+        disableConcurrentBuilds() // agar tidak jalan secara paralel
+        timeout(time: 10, unit: 'SECONDS')
     }
 
     stages{
         stage("Prepare"){
-            environment {
+            environment { // level stage
                 APP = credentials("richie_rahasia") // menggunakan credential
             }
             agent {
