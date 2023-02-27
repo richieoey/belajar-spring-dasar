@@ -17,12 +17,13 @@ pipeline {
                 }
             }
             steps{
-                echo("Author : ${AUTHOR}")
-                echo("Email : ${EMAIL}")
-                echo("Start Job : ${env.JOB_NAME}")
-                echo("Start Build : ${env.BUILD_NUMBER}")
-                echo("Branch Name : ${env.BRANCH_NAME}")
-
+                // echo("Author : ${AUTHOR}")
+                // echo("Email : ${EMAIL}")
+                // echo("Start Job : ${env.JOB_NAME}")
+                // echo("Start Build : ${env.BUILD_NUMBER}")
+                // echo("Branch Name : ${env.BRANCH_NAME}")
+                echo("App User : ${APP_USR}") // akses data credential
+                echo("Branch Name : ${APP_PSW}")
             }
         }
         stage("Build"){
