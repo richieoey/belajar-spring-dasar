@@ -8,6 +8,9 @@ pipeline {
 
     stages{
         stage("Prepare"){
+            environment {
+                APP = credentials("richie_rahasia") // menggunakan credential
+            }
             agent {
                 node {
                     label "linux && java11"
